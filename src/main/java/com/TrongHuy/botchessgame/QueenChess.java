@@ -17,55 +17,39 @@ public class QueenChess extends Chess {
         List<List<Integer>> result = new ArrayList<>();
 
         int i = 1;
-        while (x - i >= 0 && BitCalculation.get4Bit(board, x - i, y) == 0) {
+        while (x - i >= 0 && (BitCalculation.get4Bit(board, x - i, y) == 0 || (color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x - i, y)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0) break;
+
             i++;
-
-            if (x - i >= 0 && (color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x - i, y)));
-
-                break;
-            }
         }   // check di huong tay
 
         i = 1;
-        while (x + i < 8 && BitCalculation.get4Bit(board, x + i, y) == 0) {
+        while (x + i < 8 && (BitCalculation.get4Bit(board, x + i, y) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0) break;
+
             i++;
-
-            if (x + i < 8 && (color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x + i, y)));
-
-                break;
-            }
         }   // check di huong dong
 
         i = 1;
-        while (y - i >= 0 && BitCalculation.get4Bit(board, x, y - i) == 0) {
+        while (y - i >= 0 && (BitCalculation.get4Bit(board, x, y - i) == 0 || (color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x, y - i)));
+            
+            if ((color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0) break;
 
             i++;
-
-            if (y - i >= 0 && (color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x, y - i)));
-
-                break;
-            }
         }   // check di huong bac
 
         i = 1;
-        while (y + i < 8 && BitCalculation.get4Bit(board, x, y + i) == 0) {
+        while (y + i < 8 && (BitCalculation.get4Bit(board, x, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x, y + i)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0) break;
+
             i++;
-
-            if (y + i < 8 && (color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x, y + i)));
-
-                break;
-            }
         }   // check di huong nam
 
         i = 1;
@@ -82,42 +66,30 @@ public class QueenChess extends Chess {
         }   // check di huong tay bac
 
         i = 1;
-        while (x + i < 8 && y - i >= 0 && BitCalculation.get4Bit(board, x + i, y - i) == 0) {
+        while (x + i < 8 && y - i >= 0 && (BitCalculation.get4Bit(board, x + i, y - i) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y - i)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0) break;
+
             i++;
-
-            if (x + i < 8 && y - i >= 0 && (color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x + i, y - i)));
-
-                break;
-            }
         }   // check di huong dong bac
 
         i = 1;
-        while (x - i >= 0 && y + i < 8 && BitCalculation.get4Bit(board, x - i, y + i) == 0) {
+        while (x - i >= 0 && y + i < 8 && (BitCalculation.get4Bit(board, x - i, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x - i, y + i)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0) break;
+
             i++;
-
-            if (x - i >= 0 && y + i < 8 && (color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x - i, y + i)));
-
-                break;
-            }
         }   // check di huong tay nam
 
         i = 1;
-        while (x + i < 8 && y + i < 8 && BitCalculation.get4Bit(board, x + i, y + i) == 0) {
+        while (x + i < 8 && y + i < 8 && (BitCalculation.get4Bit(board, x + i, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y + i)));
 
+            if ((color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0) break;
+
             i++;
-
-            if (x + i < 8 && y + i < 8 && (color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x + i, y + i)));
-
-                break;
-            }
         }   // check di huong dong nam
 
         return result;

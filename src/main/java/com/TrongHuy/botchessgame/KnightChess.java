@@ -80,8 +80,6 @@ public class KnightChess extends Chess {
             }
         }
 
-        System.out.println(result);
-
         return result;
     }
 }

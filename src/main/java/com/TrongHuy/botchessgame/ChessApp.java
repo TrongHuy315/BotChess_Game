@@ -13,7 +13,7 @@ public class ChessApp extends Application {
         Pane pane = new Pane();
         pane.setPrefSize(1000,  600);
 
-        Board board = new Board(false);  // user cam quan trang nen den tren, trang duoi
+        Board board = new Board();
         board.showRawBoard(pane);
         board.showChess(pane);
         

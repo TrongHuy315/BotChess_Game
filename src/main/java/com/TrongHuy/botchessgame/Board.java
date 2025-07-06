@@ -2,7 +2,9 @@ package com.TrongHuy.botchessgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,13 +14,18 @@ import lombok.Getter;
 public class Board implements AnimationListener {
     private ArrayList<Long> board;
 
+    private boolean sequenceValue = new Random().nextBoolean();
+
     private AnimationPool animationPool;
     private Chess selectedChess = null;
 
-    public Board(boolean value) {
+    private ChessBot bot = new ChessBot(Config.getInt("searchDepth"));
+
+    public Board() {
         board = new ArrayList<>(Config.getInt("numberBox"));
 
-        if (value) {
+        System.out.println(sequenceValue);
+        if (!sequenceValue) {   // true thi bot cam quan trang
             board.add(1412567877L);
             board.add(1717986918L);
 
@@ -67,11 +74,11 @@ public class Board implements AnimationListener {
 
     public void showChess(Pane pane) {
         for (int i = 0; i < Config.getInt("numberBox"); i++) {
-            for (int j = Config.getInt("numberBox") - 1; j >= 0; j--) {
-                int chessType = (int)((board.get(i) >> (4 * j)) & 15);
+            for (int j = 0; j < Config.getInt("numberBox"); j++) {
+                int chessType = (int)((board.get(i) >> (4 * (Config.getInt("numberBox") - 1 - j))) & 15);
                 boolean colorType = chessType > 8 ? true : false;
 
-                boolean canMove = i > 1 ? true : false;
+                boolean canMove = sequenceValue == colorType ? false : true;
 
                 int x = Config.getInt("startBoardX") + Config.getInt("boxSize") * j;
                 int y = Config.getInt("startBoardY") + Config.getInt("boxSize") * i;
@@ -97,6 +104,8 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
                 else if (chessType == 2 || chessType == 10) {
                     Chess chess = new QueenChess(canMove, colorType, x, y);
@@ -119,6 +128,8 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
                 else if (chessType == 3 || chessType == 11) {
                     Chess chess = new BishopChess(canMove, colorType, x, y);
@@ -141,6 +152,8 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
                 else if (chessType == 4 || chessType == 12) {
                     Chess chess = new KnightChess(canMove, colorType, x, y);
@@ -163,6 +176,8 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
                 else if (chessType == 5 || chessType == 13) {
                     Chess chess = new RookChess(canMove, colorType, x, y);
@@ -185,6 +200,8 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
                 else if (chessType == 6 || chessType == 14) {
                     Chess chess = new PawnChess(canMove, colorType, x, y);
@@ -207,13 +224,15 @@ public class Board implements AnimationListener {
                             else selectedChess = null;
                         }
                     });
+
+                    chess.getImageView().setUserData(chess);
                 }
             }
         }
     }
 
     @Override
-    public void AnimationClick(int x_target, int y_target) {   // toa do x, y theo ma tran
+    public void AnimationClick(Pane pane, int x_target, int y_target) {   // toa do x, y theo ma tran
         if (selectedChess == null) return;
 
         int x_0 = (selectedChess.getX() - Config.getInt("startBoardX")) / Config.getInt("boxSize");
@@ -221,8 +240,6 @@ public class Board implements AnimationListener {
 
         // thuc hien update board
         long src = (board.get(y_0) >> ((Config.getInt("numberBox") - 1 - x_0) * 4)) & 15;
-        System.out.println(x_0);
-        System.out.println(y_0);
         board.set(y_0, BitCalculation.replace4Bits(board.get(y_0), (Config.getInt("numberBox") - 1 - x_0) * 4, 0));
         board.set(y_target, BitCalculation.replace4Bits(board.get(y_target), (Config.getInt("numberBox") - 1 - x_target) * 4, src));
 
@@ -236,5 +253,20 @@ public class Board implements AnimationListener {
 
         AnimationPool.clearAll();
         selectedChess = null;
+
+        // THUC HIEN LOGIC DI CHUYEN CUA BOT SAU MOI LUOT NGUOI CHOI DI
+        new Thread(() -> {
+            ChessBot.Move move = bot.findBestMove(board, !sequenceValue);   // truyen vao gia tri xac dinh mau quan ma bot cam
+
+            // cap nhat ban co sau khi bot di
+            Platform.runLater(() -> {
+                long sub = (board.get(move.fromY()) >> ((Config.getInt("numberBox") - 1 - move.fromX()) * 4)) & 15;
+                board.set(move.fromY(), BitCalculation.replace4Bits(board.get(move.fromY()), (Config.getInt("numberBox") - 1 - move.fromX()) * 4, 0));
+                board.set(move.toY(), BitCalculation.replace4Bits(board.get(move.toY()), (Config.getInt("numberBox") - 1 - move.toX()) * 4, sub));
+
+                pane.getChildren().removeIf(node -> node.getUserData() instanceof Chess);
+                showChess(pane);
+            });
+        }).start();
     }
 }

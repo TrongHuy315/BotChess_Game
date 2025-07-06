@@ -25,7 +25,7 @@ public class AnimationPool {
                 circle.setFill(Color.YELLOW);
                 circle.setVisible(false);
                 circle.setOnMouseClicked(e -> {
-                    listener.AnimationClick(x_target, y_target);
+                    listener.AnimationClick(pane, x_target, y_target);
                 });
 
                 store.add(circle);
