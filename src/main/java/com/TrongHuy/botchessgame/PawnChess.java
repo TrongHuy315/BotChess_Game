@@ -83,8 +83,6 @@ public class PawnChess extends Chess {
             // chua xu ly truong hop tot duoc phong hau
         }
 
-        System.out.println(result);
-
         return result;
     }
 }

@@ -17,23 +17,19 @@ public class BishopChess extends Chess {
         List<List<Integer>> result = new ArrayList<>();
 
         int i = 1;
-        while (x - i >= 0 && y - i >= 0 && BitCalculation.get4Bit(board, x - i, y - i) == 0) {
+        while (x - i >= 0 && y - i >= 0 && (BitCalculation.get4Bit(board, x - i, y - i) == 0 || (color ^ (BitCalculation.get4Bit(board, x - i, y - i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x - i, y - i)));
 
+            if (BitCalculation.get4Bit(board, x - i, y - i) != 0 && (color ^ (BitCalculation.get4Bit(board, x - i, y - i) >> 3)) != 0) break;
+
             i++;
-
-            if (x - i >= 0 && y - i >= 0 && (color ^ (BitCalculation.get4Bit(board, x - i, y - i) >> 3)) != 0) {
-                result.add(new ArrayList<>(List.of(x - i, y - i)));
-
-                break;
-            }
         }   // check di huong tay bac
 
         i = 1;
         while (x + i < 8 && y - i >= 0 && (BitCalculation.get4Bit(board, x + i, y - i) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y - i)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x + i, y - i) != 0 && (color ^ (BitCalculation.get4Bit(board, x + i, y - i) >> 3)) != 0) break;
 
             i++;
         }   // check di huong dong bac
@@ -42,7 +38,7 @@ public class BishopChess extends Chess {
         while (x - i >= 0 && y + i < 8 && (BitCalculation.get4Bit(board, x - i, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x - i, y + i)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x - i, y + i) != 0 && (color ^ (BitCalculation.get4Bit(board, x - i, y + i) >> 3)) != 0) break;
 
             i++;
         }   // check di huong tay nam
@@ -51,7 +47,7 @@ public class BishopChess extends Chess {
         while (x + i < 8 && y + i < 8 && (BitCalculation.get4Bit(board, x + i, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y + i)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x + i, y + i) != 0 && (color ^ (BitCalculation.get4Bit(board, x + i, y + i) >> 3)) != 0) break;
 
             i++;
         }   // check di huong dong nam

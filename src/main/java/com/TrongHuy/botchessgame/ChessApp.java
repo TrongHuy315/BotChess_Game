@@ -16,6 +16,7 @@ public class ChessApp extends Application {
         Board board = new Board();
         board.showRawBoard(pane);
         board.showChess(pane);
+        board.firstBotRun(pane);
         
         Scene scene = new Scene(pane, 1000, 600);
         stage.setScene(scene);

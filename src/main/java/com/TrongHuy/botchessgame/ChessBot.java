@@ -139,10 +139,10 @@ public class ChessBot {
                 bestMove = currentBestMove;
             }
             
-            System.out.println("Depth " + depth + ": Best move = " + bestMove + ", Value = " + bestValue);
+            // System.out.println("Depth " + depth + ": Best move = " + bestMove + ", Value = " + bestValue);
         }
         
-        System.out.println("Nodes searched: " + nodesSearched);
+        // System.out.println("Nodes searched: " + nodesSearched);
         return bestMove;
     }
 

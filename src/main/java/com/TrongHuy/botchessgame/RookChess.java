@@ -20,7 +20,7 @@ public class RookChess extends Chess {
         while (x - i >= 0 && (BitCalculation.get4Bit(board, x - i, y) == 0 || (color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x - i, y)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x - i, y) != 0 && (color ^ (BitCalculation.get4Bit(board, x - i, y) >> 3)) != 0) break;
 
             i++;
         }   // check di huong tay
@@ -29,7 +29,7 @@ public class RookChess extends Chess {
         while (x + i < 8 && (BitCalculation.get4Bit(board, x + i, y) == 0 || (color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x + i, y)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x + i, y) != 0 && (color ^ (BitCalculation.get4Bit(board, x + i, y) >> 3)) != 0) break;
 
             i++;
         }   // check di huong dong
@@ -38,7 +38,7 @@ public class RookChess extends Chess {
         while (y - i >= 0 && (BitCalculation.get4Bit(board, x, y - i) == 0 || (color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x, y - i)));
             
-            if ((color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x, y - i) != 0 && (color ^ (BitCalculation.get4Bit(board, x, y - i) >> 3)) != 0) break;
 
             i++;
         }   // check di huong bac
@@ -47,7 +47,7 @@ public class RookChess extends Chess {
         while (y + i < 8 && (BitCalculation.get4Bit(board, x, y + i) == 0 || (color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0)) {
             result.add(new ArrayList<>(List.of(x, y + i)));
 
-            if ((color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0) break;
+            if (BitCalculation.get4Bit(board, x, y + i) != 0 && (color ^ (BitCalculation.get4Bit(board, x, y + i) >> 3)) != 0) break;
 
             i++;
         }   // check di huong nam

@@ -24,9 +24,8 @@ public class Board implements AnimationListener {
     public Board() {
         board = new ArrayList<>(Config.getInt("numberBox"));
 
-        System.out.println(sequenceValue);
         if (!sequenceValue) {   // true thi bot cam quan trang
-            board.add(1412567877L);
+            board.add(1412506437L);
             board.add(1717986918L);
 
             for (int i = 2; i < 6; i++) {
@@ -34,10 +33,10 @@ public class Board implements AnimationListener {
             }
 
             board.add(4008636142L);
-            board.add(3703217101L);
+            board.add(3703155661L);
         }
         else {
-            board.add(3703155661L);
+            board.add(3703217101L);
             board.add(4008636142L);
 
             for (int i = 2; i < 6; i++) {
@@ -45,7 +44,7 @@ public class Board implements AnimationListener {
             }
 
             board.add(1717986918L);
-            board.add(1412506437L);
+            board.add(1412567877L);
         }
     }
 
@@ -228,6 +227,24 @@ public class Board implements AnimationListener {
                     chess.getImageView().setUserData(chess);
                 }
             }
+        }
+    }
+
+    public void firstBotRun(Pane pane) {
+        if (!sequenceValue) {
+            new Thread(() -> {
+                ChessBot.Move move = bot.findBestMove(board, !sequenceValue);   // truyen vao gia tri xac dinh mau quan ma bot cam
+
+                // cap nhat ban co sau khi bot di
+                Platform.runLater(() -> {
+                    long sub = (board.get(move.fromY()) >> ((Config.getInt("numberBox") - 1 - move.fromX()) * 4)) & 15;
+                    board.set(move.fromY(), BitCalculation.replace4Bits(board.get(move.fromY()), (Config.getInt("numberBox") - 1 - move.fromX()) * 4, 0));
+                    board.set(move.toY(), BitCalculation.replace4Bits(board.get(move.toY()), (Config.getInt("numberBox") - 1 - move.toX()) * 4, sub));
+
+                    pane.getChildren().removeIf(node -> node.getUserData() instanceof Chess);
+                    showChess(pane);
+                });
+            }).start();
         }
     }
 
